@@ -1,7 +1,5 @@
 <template>
   <div>
-    <p>Params</p>
-
     <v-layout row>
       <v-flex shrink class="price-field">
         <v-text-field
@@ -16,7 +14,7 @@
       <v-flex class="px-3">
         <v-range-slider
           v-model="price"
-          @change="priceChanged"
+          @change="onChange"
           :max="maxPrice"
           :min="minPrice"
         ></v-range-slider>
@@ -33,7 +31,7 @@
       </v-flex>
     </v-layout>
 
-    <v-btn-toggle max=5 mandatory v-model="category" @change="categoryChanged">
+    <v-btn-toggle max=5 mandatory v-model="category" @change="onChange">
       <v-btn 
         flat
         v-for="category in categories"
@@ -81,19 +79,17 @@ export default {
       price: [minPrice, maxPrice],
     };
   },
+  created() {
+    this.onChange();
+  },
   methods: {
-    categoryChanged() {
+    onChange() {
       this.$emit('change', {
         category: this.category,
-        price: this.price,
+        minPrice: this.price[0],
+        maxPrice: this.price[1],
       });
     },
-    priceChanged() {
-      this.$emit('change', {
-        category: this.category,
-        price: this.price,
-      });
-    }
   },
 }
 </script>

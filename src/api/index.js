@@ -4,9 +4,9 @@ export default class API {
         this.logger = logger;
     }
 
-    getSuggestions({ category = "default_category", minPrice = 0, maxPrice = 10000} = {}) {
-        this.logger.log("Query by", category, [minPrice, maxPrice]);
-        return Promise.resolve([
+    getSuggestions({ userId, category = "default_category", minPrice = 0, maxPrice = 10000} = {}) {
+        this.logger.log("Query by", userId, category, [minPrice, maxPrice]);
+        const dummyResults = [
             {
                 "precio": 35664.0,
                 "peso": 1.7,
@@ -23,7 +23,7 @@ export default class API {
                 "categoria": "argolla",
                 "kilates": "10",
                 "id": "2",
-                "nombre": "anillo rosa"
+                "nombre": "anillo amarillo"
             },
             {
                 "precio": 1233.0,
@@ -32,8 +32,12 @@ export default class API {
                 "categoria": "anillo",
                 "kilates": "18",
                 "id": "3",
-                "nombre": "anillo rosa"
+                "nombre": "anillo pedorro"
             }
-        ]);
+        ];
+
+        return new Promise(function(resolve, /*reject*/){
+			setTimeout(() => resolve(dummyResults), 1000)
+        });
     }
 }

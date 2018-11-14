@@ -16,4 +16,7 @@ export default {
 </script>
 
 <style scoped>
+p {
+  margin: 100px;
+}
 </style>

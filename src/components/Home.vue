@@ -1,29 +1,37 @@
 <template>
   <div>
     <b-container>
-      <img alt="Vue logo" src="../assets/logo.png">
       <search-params @change="onParamsChange"></search-params>
+      <loading v-if="isLoading"></loading>
+      <v-list two-line class="results">
+        <suggestion-item
+        v-if="!isLoading && loaded"
+        v-for="product in results"
+        v-bind:key="product.id"
+        v-bind:product="product"></suggestion-item>
+      </v-list>
     </b-container>
-    <suggestion-item
-      v-for="product in results"
-      v-bind:key="product.id"
-      v-bind:product="product"></suggestion-item>
   </div>
 </template>
 
 <script>
 import SearchParams from './SearchParams'
 import SuggestionItem from './SuggestionItem'
+import Loading from './Loading'
 import API from '../api'
 
 const api = new API();
 
 export default {
   name: 'Home',
-  components: { SuggestionItem, SearchParams },
+  components: { Loading, SuggestionItem, SearchParams },
+  props: [ 'userId' ],
   data() {
     return {
+      isLoading: false,
+      loaded: false,
       query: {
+        userId: null,
         minPrice: null,
         maxPrice: null,
         category: null,
@@ -31,13 +39,25 @@ export default {
       results: [],
     }
   },
+  created() {
+    if (this.$userId) {
+      this.query.userId = this.$userId;
+    }
+  },
   methods: {
-    onParamsChange() {
+    onParamsChange(query) {
+      this.isLoading = true;
+      this.query = query;
       api.getSuggestions(this.query)
       .then(this.updateResults)
-      .catch(this.$log);
+      .catch(this.$log)
+      .finally(() => this.setLoading(false));
+    },
+    setLoading(loading) {
+      this.isLoading = loading;
     },
     updateResults(results) {
+      this.loaded = true;
       this.results = results;
     }
   }
@@ -48,5 +68,8 @@ export default {
 <style scoped>
 .search-bar {
   margin: 10px;
+}
+.results {
+  margin: 30px;
 }
 </style>

@@ -40,7 +40,7 @@ export default {
       return username == password;
     },
     logged(id) {
-      Vue.prototype.userId = id;
+      Vue.prototype.$userId = id;
       this.$router.push({ name: 'home' });
     },
   }
