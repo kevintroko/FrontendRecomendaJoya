@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <v-app id="app">
     <b-navbar toggleable="md" type="dark" variant="info">
       <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
       <router-link to="/">
@@ -13,12 +13,13 @@
       </b-navbar-nav>
     </b-navbar>
     <router-view></router-view>
-  </div>
+  </v-app>
 </template>
 
 <script>
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import 'vuetify/dist/vuetify.min.css'
 
 export default {
   name: 'app',

@@ -2,43 +2,45 @@
   <div>
     <b-container>
       <img alt="Vue logo" src="../assets/logo.png">
-      <b-form-input class="search-bar"
-                    type="text"
-                    v-model="query"
-                    placeholder="Search tournament..."></b-form-input>
+      <search-params @change="onParamsChange"></search-params>
     </b-container>
-    <search-result
-      v-for="tournament in tournaments"
-      v-bind:key="tournament.id"
-      v-bind:tournament="tournament"></search-result>
+    <suggestion-item
+      v-for="product in results"
+      v-bind:key="product.id"
+      v-bind:product="product"></suggestion-item>
   </div>
 </template>
 
 <script>
-import SearchResult from './SearchResult'
-import axios from 'axios';
+import SearchParams from './SearchParams'
+import SuggestionItem from './SuggestionItem'
+import API from '../api'
+
+const api = new API();
 
 export default {
   name: 'Home',
-  components: { SearchResult },
+  components: { SuggestionItem, SearchParams },
   data() {
     return {
-      query: '',
-      tournaments: [],
+      query: {
+        minPrice: null,
+        maxPrice: null,
+        category: null,
+      },
+      results: [],
     }
   },
-  updated() {
-    axios.get(`http://localhost:3000/tournament/search/${this.query}`)
-      .then(response => {
-        const tournaments = response.data || [];
-        tournaments.sort((a, b) => b.id - a.id)
-        this.tournaments = tournaments;
-      })
-      .catch(err => {
-        this.$log.error(err);
-        this.tournaments = [];
-      })
-  },
+  methods: {
+    onParamsChange() {
+      api.getSuggestions(this.query)
+      .then(this.updateResults)
+      .catch(this.$log);
+    },
+    updateResults(results) {
+      this.results = results;
+    }
+  }
 }
 </script>
 

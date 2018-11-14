@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import Vue from 'vue'
 
 export default {
   name: 'Login',
@@ -40,6 +40,7 @@ export default {
       return username == password;
     },
     logged(id) {
+      Vue.prototype.userId = id;
       this.$router.push({ name: 'home' });
     },
   }

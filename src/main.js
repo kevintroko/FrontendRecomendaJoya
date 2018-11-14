@@ -1,13 +1,13 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VueLogger from 'vuejs-logger'
+import BootstrapVue from 'bootstrap-vue'
+import Vuetify from 'vuetify'
 
 import App from './App.vue'
 import Home from './components/Home'
-
-
 import Login from './components/Login'
-import BootstrapVue from 'bootstrap-vue'
+
 
 const options = {
   isEnabled: true,
@@ -22,6 +22,7 @@ const options = {
 Vue.use(VueLogger, options);
 Vue.use(BootstrapVue);
 Vue.use(VueRouter);
+Vue.use(Vuetify)
 
 Vue.config.productionTip = false;
 
