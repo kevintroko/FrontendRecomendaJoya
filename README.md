@@ -1,4 +1,4 @@
-# troko-joyas-front
+# Recomendajoya Front
 
 ## Project setup
 ```
